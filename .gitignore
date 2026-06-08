@@ -1,0 +1,4 @@
+/.pnpm-store
+/dist
+/node_modules
+/privacy-leakage-research.md
