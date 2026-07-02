@@ -5,6 +5,7 @@ export interface EndpointResult {
   id: string
   label: string
   url: string
+  urls?: string[]
   category: string
   region: string
   ok: boolean
@@ -66,6 +67,7 @@ interface ReachabilityTarget {
   id: string
   label: string
   url: string
+  urls?: string[]
   category: string
   region: string
   probe?: 'image'
@@ -328,6 +330,42 @@ const extendedReachabilityTargets: ReachabilityTarget[] = [
     region: 'tw',
   },
   {
+    id: 'udn-tw',
+    label: '聯合新聞網',
+    url: 'https://udn.com/favicon.ico',
+    category: 'region-tw',
+    region: 'tw',
+  },
+  {
+    id: 'ltn-tw',
+    label: '自由時報',
+    url: 'https://www.ltn.com.tw/favicon.ico',
+    urls: ['https://www.ltn.com.tw/favicon.ico', 'https://news.ltn.com.tw/favicon.ico'],
+    category: 'region-tw',
+    region: 'tw',
+  },
+  {
+    id: 'momo-tw',
+    label: 'momo 購物',
+    url: 'https://www.momoshop.com.tw/favicon.ico',
+    category: 'region-tw',
+    region: 'tw',
+  },
+  {
+    id: 'ruten-tw',
+    label: '露天拍賣',
+    url: 'https://www.ruten.com.tw/favicon.ico',
+    category: 'region-tw',
+    region: 'tw',
+  },
+  {
+    id: 'books-tw',
+    label: '博客來',
+    url: 'https://www.books.com.tw/favicon.ico',
+    category: 'region-tw',
+    region: 'tw',
+  },
+  {
     id: 'rthk',
     label: 'RTHK',
     url: 'https://www.rthk.hk/favicon.ico',
@@ -352,6 +390,42 @@ const extendedReachabilityTargets: ReachabilityTarget[] = [
     id: 'openrice-hk',
     label: 'OpenRice',
     url: 'https://www.openrice.com/favicon.ico',
+    category: 'region-hk',
+    region: 'hk',
+  },
+  {
+    id: 'hket',
+    label: '香港經濟日報',
+    url: 'https://www.hket.com/favicon.ico',
+    category: 'region-hk',
+    region: 'hk',
+  },
+  {
+    id: 'mingpao',
+    label: '明報',
+    url: 'https://www.mingpao.com/favicon.ico',
+    urls: ['https://www.mingpao.com/favicon.ico', 'https://news.mingpao.com/favicon.ico'],
+    category: 'region-hk',
+    region: 'hk',
+  },
+  {
+    id: 'hkgov',
+    label: '香港政府一站通',
+    url: 'https://www.gov.hk/favicon.ico',
+    category: 'region-hk',
+    region: 'hk',
+  },
+  {
+    id: 'octopus-hk',
+    label: 'Octopus',
+    url: 'https://www.octopus.com.hk/favicon.ico',
+    category: 'region-hk',
+    region: 'hk',
+  },
+  {
+    id: 'price-hk',
+    label: 'Price.com.hk',
+    url: 'https://www.price.com.hk/favicon.ico',
     category: 'region-hk',
     region: 'hk',
   },
@@ -384,6 +458,41 @@ const extendedReachabilityTargets: ReachabilityTarget[] = [
     region: 'jp',
   },
   {
+    id: 'amazon-jp',
+    label: 'Amazon Japan',
+    url: 'https://www.amazon.co.jp/favicon.ico',
+    category: 'region-jp',
+    region: 'jp',
+  },
+  {
+    id: 'mercari-jp',
+    label: 'Mercari',
+    url: 'https://jp.mercari.com/favicon.ico',
+    category: 'region-jp',
+    region: 'jp',
+  },
+  {
+    id: 'nhk-jp',
+    label: 'NHK',
+    url: 'https://www.nhk.or.jp/favicon.ico',
+    category: 'region-jp',
+    region: 'jp',
+  },
+  {
+    id: 'goo-jp',
+    label: 'goo',
+    url: 'https://www.goo.ne.jp/favicon.ico',
+    category: 'region-jp',
+    region: 'jp',
+  },
+  {
+    id: 'jma-jp',
+    label: 'Japan Meteorological Agency',
+    url: 'https://www.jma.go.jp/favicon.ico',
+    category: 'region-jp',
+    region: 'jp',
+  },
+  {
     id: 'naver',
     label: 'Naver',
     url: 'https://www.naver.com/favicon.ico',
@@ -408,6 +517,41 @@ const extendedReachabilityTargets: ReachabilityTarget[] = [
     id: 'kakao',
     label: 'Kakao',
     url: 'https://www.kakao.com/favicon.ico',
+    category: 'region-kr',
+    region: 'kr',
+  },
+  {
+    id: '11st-kr',
+    label: '11st',
+    url: 'https://www.11st.co.kr/favicon.ico',
+    category: 'region-kr',
+    region: 'kr',
+  },
+  {
+    id: 'gmarket-kr',
+    label: 'Gmarket',
+    url: 'https://www.gmarket.co.kr/favicon.ico',
+    category: 'region-kr',
+    region: 'kr',
+  },
+  {
+    id: 'tistory-kr',
+    label: 'Tistory',
+    url: 'https://www.tistory.com/favicon.ico',
+    category: 'region-kr',
+    region: 'kr',
+  },
+  {
+    id: 'chosun-kr',
+    label: 'Chosun',
+    url: 'https://www.chosun.com/favicon.ico',
+    category: 'region-kr',
+    region: 'kr',
+  },
+  {
+    id: 'kbs-kr',
+    label: 'KBS',
+    url: 'https://www.kbs.co.kr/favicon.ico',
     category: 'region-kr',
     region: 'kr',
   },
@@ -440,6 +584,41 @@ const extendedReachabilityTargets: ReachabilityTarget[] = [
     region: 'ru',
   },
   {
+    id: 'mailru',
+    label: 'Mail.ru',
+    url: 'https://mail.ru/favicon.ico',
+    category: 'region-ru',
+    region: 'ru',
+  },
+  {
+    id: 'rambler',
+    label: 'Rambler',
+    url: 'https://www.rambler.ru/favicon.ico',
+    category: 'region-ru',
+    region: 'ru',
+  },
+  {
+    id: 'ria',
+    label: 'RIA Novosti',
+    url: 'https://ria.ru/favicon.ico',
+    category: 'region-ru',
+    region: 'ru',
+  },
+  {
+    id: 'lenta',
+    label: 'Lenta.ru',
+    url: 'https://lenta.ru/favicon.ico',
+    category: 'region-ru',
+    region: 'ru',
+  },
+  {
+    id: 'avito',
+    label: 'Avito',
+    url: 'https://www.avito.ru/favicon.ico',
+    category: 'region-ru',
+    region: 'ru',
+  },
+  {
     id: 'aparat',
     label: 'Aparat',
     url: 'https://www.aparat.com/favicon.ico',
@@ -466,6 +645,209 @@ const extendedReachabilityTargets: ReachabilityTarget[] = [
     url: 'https://www.telewebion.com/favicon.ico',
     category: 'region-ir',
     region: 'ir',
+  },
+  {
+    id: 'divar-ir',
+    label: 'Divar',
+    url: 'https://divar.ir/favicon.ico',
+    category: 'region-ir',
+    region: 'ir',
+  },
+  {
+    id: 'snapp-ir',
+    label: 'Snapp',
+    url: 'https://snapp.ir/favicon.ico',
+    category: 'region-ir',
+    region: 'ir',
+  },
+  {
+    id: 'isna-ir',
+    label: 'ISNA',
+    url: 'https://www.isna.ir/favicon.ico',
+    category: 'region-ir',
+    region: 'ir',
+  },
+  {
+    id: 'mehrnews-ir',
+    label: 'Mehr News',
+    url: 'https://www.mehrnews.com/favicon.ico',
+    category: 'region-ir',
+    region: 'ir',
+  },
+  {
+    id: 'irna-ir',
+    label: 'IRNA',
+    url: 'https://www.irna.ir/favicon.ico',
+    category: 'region-ir',
+    region: 'ir',
+  },
+  {
+    id: 'straitstimes-sg',
+    label: 'The Straits Times',
+    url: 'https://www.straitstimes.com/favicon.ico',
+    category: 'region-sg',
+    region: 'sg',
+  },
+  {
+    id: 'channelnewsasia-sg',
+    label: 'Channel NewsAsia',
+    url: 'https://www.channelnewsasia.com/favicon.ico',
+    category: 'region-sg',
+    region: 'sg',
+  },
+  {
+    id: 'sg-gov',
+    label: 'gov.sg',
+    url: 'https://www.gov.sg/favicon.ico',
+    category: 'region-sg',
+    region: 'sg',
+  },
+  {
+    id: 'dbs-sg',
+    label: 'DBS',
+    url: 'https://www.dbs.com.sg/favicon.ico',
+    category: 'region-sg',
+    region: 'sg',
+  },
+  {
+    id: 'carousell-sg',
+    label: 'Carousell SG',
+    url: 'https://www.carousell.sg/favicon.ico',
+    category: 'region-sg',
+    region: 'sg',
+  },
+  {
+    id: 'hardwarezone-sg',
+    label: 'HardwareZone',
+    url: 'https://www.hardwarezone.com.sg/favicon.ico',
+    category: 'region-sg',
+    region: 'sg',
+  },
+  {
+    id: 'thestar-my',
+    label: 'The Star',
+    url: 'https://www.thestar.com.my/favicon.ico',
+    category: 'region-my',
+    region: 'my',
+  },
+  {
+    id: 'malaysiakini-my',
+    label: 'Malaysiakini',
+    url: 'https://www.malaysiakini.com/favicon.ico',
+    category: 'region-my',
+    region: 'my',
+  },
+  {
+    id: 'mudah-my',
+    label: 'Mudah.my',
+    url: 'https://www.mudah.my/favicon.ico',
+    category: 'region-my',
+    region: 'my',
+  },
+  {
+    id: 'maybank-my',
+    label: 'Maybank',
+    url: 'https://www.maybank2u.com.my/favicon.ico',
+    category: 'region-my',
+    region: 'my',
+  },
+  {
+    id: 'lowyat-my',
+    label: 'Lowyat.NET',
+    url: 'https://www.lowyat.net/favicon.ico',
+    category: 'region-my',
+    region: 'my',
+  },
+  {
+    id: 'lazada-my',
+    label: 'Lazada MY',
+    url: 'https://www.lazada.com.my/favicon.ico',
+    category: 'region-my',
+    region: 'my',
+  },
+  {
+    id: 'sanook-th',
+    label: 'Sanook',
+    url: 'https://www.sanook.com/favicon.ico',
+    category: 'region-th',
+    region: 'th',
+  },
+  {
+    id: 'pantip-th',
+    label: 'Pantip',
+    url: 'https://pantip.com/favicon.ico',
+    category: 'region-th',
+    region: 'th',
+  },
+  {
+    id: 'thairath-th',
+    label: 'Thairath',
+    url: 'https://www.thairath.co.th/favicon.ico',
+    category: 'region-th',
+    region: 'th',
+  },
+  {
+    id: 'khaosod-th',
+    label: 'Khaosod',
+    url: 'https://www.khaosod.co.th/favicon.ico',
+    category: 'region-th',
+    region: 'th',
+  },
+  {
+    id: 'lazada-th',
+    label: 'Lazada TH',
+    url: 'https://www.lazada.co.th/favicon.ico',
+    category: 'region-th',
+    region: 'th',
+  },
+  {
+    id: 'kapook-th',
+    label: 'Kapook',
+    url: 'https://www.kapook.com/favicon.ico',
+    category: 'region-th',
+    region: 'th',
+  },
+  {
+    id: 'vnexpress-vn',
+    label: 'VnExpress',
+    url: 'https://vnexpress.net/favicon.ico',
+    category: 'region-vn',
+    region: 'vn',
+  },
+  {
+    id: 'zing-vn',
+    label: 'Zing News',
+    url: 'https://zingnews.vn/favicon.ico',
+    category: 'region-vn',
+    region: 'vn',
+  },
+  {
+    id: 'dantri-vn',
+    label: 'Dantri',
+    url: 'https://dantri.com.vn/favicon.ico',
+    category: 'region-vn',
+    region: 'vn',
+  },
+  {
+    id: 'tiki-vn',
+    label: 'Tiki',
+    url: 'https://tiki.vn/favicon.ico',
+    category: 'region-vn',
+    region: 'vn',
+  },
+  {
+    id: 'thegioididong-vn',
+    label: 'The Gioi Di Dong',
+    url: 'https://www.thegioididong.com/favicon.ico',
+    category: 'region-vn',
+    region: 'vn',
+  },
+  {
+    id: 'tuoitre-vn',
+    label: 'Tuoi Tre',
+    url: 'https://tuoitre.vn/favicon.ico',
+    category: 'region-vn',
+    region: 'vn',
   },
 ]
 
@@ -573,6 +955,38 @@ const profileGroups: ReachabilityProfileGroup[] = [
     country: 'IR',
     expected: 'reachable',
   },
+  {
+    id: 'region-sg',
+    label: '新加坡强地域站点',
+    categories: ['region-sg'],
+    kind: 'regional-service',
+    country: 'SG',
+    expected: 'reachable',
+  },
+  {
+    id: 'region-my',
+    label: '马来西亚强地域站点',
+    categories: ['region-my'],
+    kind: 'regional-service',
+    country: 'MY',
+    expected: 'reachable',
+  },
+  {
+    id: 'region-th',
+    label: '泰国强地域站点',
+    categories: ['region-th'],
+    kind: 'regional-service',
+    country: 'TH',
+    expected: 'reachable',
+  },
+  {
+    id: 'region-vn',
+    label: '越南强地域站点',
+    categories: ['region-vn'],
+    kind: 'regional-service',
+    country: 'VN',
+    expected: 'reachable',
+  },
 ]
 
 const regionalProfileCountries: Record<string, string> = {
@@ -582,9 +996,14 @@ const regionalProfileCountries: Record<string, string> = {
   'region-kr': 'KR',
   'region-ru': 'RU',
   'region-ir': 'IR',
+  'region-sg': 'SG',
+  'region-my': 'MY',
+  'region-th': 'TH',
+  'region-vn': 'VN',
 }
 
 const regionalAttributionMinOkRate = 0.9
+const regionalStrongOkRate = 0.98
 
 const countryLabels: Record<string, string> = {
   CN: '中国大陆',
@@ -594,6 +1013,10 @@ const countryLabels: Record<string, string> = {
   KR: '韩国',
   RU: '俄罗斯',
   IR: '伊朗',
+  SG: '新加坡',
+  MY: '马来西亚',
+  TH: '泰国',
+  VN: '越南',
 }
 
 function clamp(value: number, min: number, max: number) {
@@ -652,7 +1075,7 @@ function scoreProfile(group: ReachabilityProfileGroup, okRate: number, failRate:
 
 function profileConfidence(total: number, okRate: number, score: number) {
   if (total <= 0) return 0
-  const volume = Math.min(0.24, total * 0.035)
+  const volume = Math.min(0.3, total * 0.028)
   const decisiveness = Math.abs(okRate - 0.5) * 0.28
   const scoreStrength = (score / 100) * 0.18
   return round(clamp(0.28 + volume + decisiveness + scoreStrength, 0.26, 0.9))
@@ -737,28 +1160,28 @@ function buildNetworkAttribution(profiles: ReachabilityProfile[]): NetworkAttrib
   if (cn) {
     const components: Record<string, number> = {}
     const reasons: string[] = []
-    components.cnSites = Math.round(cn.okRate * 14)
+    components.cnSites = Math.round(cn.okRate * 12)
     if (cn.okRate >= 0.75) addReason(reasons, `大陆常用站点可达率 ${percent(cn.okRate)}`)
     if (typeof cn.speedRatio === 'number' && cn.speedRatio <= 0.9) {
-      components.cnLatency = cn.speedRatio <= 0.65 ? 8 : 4
+      components.cnLatency = cn.speedRatio <= 0.65 ? 7 : 3
       addReason(reasons, `大陆常用站点耗时约为全球基线 ${cn.speedRatio}x`)
     }
 
     if (blocked) {
-      components.blockedFailure = Math.round(blocked.failRate * 44)
+      components.blockedFailure = Math.round(blocked.failRate * 48)
       if (blocked.failRate >= 0.6) addReason(reasons, `地缘政治敏感站点失败率 ${percent(blocked.failRate)}`)
     }
 
     if (social) {
-      components.socialFailure = Math.round(social.failRate * 22)
+      components.socialFailure = Math.round(social.failRate * 24)
       if (social.failRate >= 0.45) addReason(reasons, `全球社交/通讯站点失败率 ${percent(social.failRate)}`)
     }
 
-    if (cn.okRate >= 0.75 && (blocked?.failRate ?? 0) >= 0.6) {
-      components.cnBlockedSynergy = 20
+    if (cn.okRate >= 0.9 && (blocked?.failRate ?? 0) >= 0.65) {
+      components.cnBlockedSynergy = 18
       addReason(reasons, '大陆站点可达 + 常见被屏蔽目标不可达的组合特征明显')
-    } else if (cn.okRate >= 0.75 && (social?.failRate ?? 0) >= 0.45) {
-      components.cnSocialSynergy = 10
+    } else if (cn.okRate >= 0.9 && (social?.failRate ?? 0) >= 0.5) {
+      components.cnSocialSynergy = 9
       addReason(reasons, '大陆站点可达 + 全球社交站点部分不可达')
     }
 
@@ -767,15 +1190,15 @@ function buildNetworkAttribution(profiles: ReachabilityProfile[]): NetworkAttrib
       0,
       100,
     )
-    const hasRestrictionEvidence = (blocked?.failRate ?? 0) >= 0.5 || (social?.failRate ?? 0) >= 0.45
-    if ((hasRestrictionEvidence && score >= 32) || (cn.okRate === 1 && score >= 18)) {
+    const hasRestrictionEvidence = (blocked?.failRate ?? 0) >= 0.55 || (social?.failRate ?? 0) >= 0.5
+    if ((hasRestrictionEvidence && cn.okRate >= 0.75 && score >= 38) || (cn.okRate === 1 && score >= 18 && typeof blocked === 'undefined')) {
       attributions.push({
         country: 'CN',
         label: countryLabels.CN,
         score: Math.round(score),
         confidence: round(
           clamp(
-            0.28 + score / 185 + (hasRestrictionEvidence ? 0.08 : 0) + Math.min(0.1, (cn.total + (blocked?.total ?? 0) + (social?.total ?? 0)) * 0.005),
+            0.24 + score / 190 + (hasRestrictionEvidence ? 0.1 : 0) + Math.min(0.1, (cn.total + (blocked?.total ?? 0) + (social?.total ?? 0)) * 0.005),
             0.28,
             0.88,
           ),
@@ -792,22 +1215,22 @@ function buildNetworkAttribution(profiles: ReachabilityProfile[]): NetworkAttrib
     if (profile.okRate < regionalAttributionMinOkRate) continue
 
     const components: Record<string, number> = {
-      reachability: Math.round(45 + ((profile.okRate - regionalAttributionMinOkRate) / (1 - regionalAttributionMinOkRate)) * 20),
+      reachability: Math.round(48 + ((profile.okRate - regionalAttributionMinOkRate) / (1 - regionalAttributionMinOkRate)) * 22),
     }
     const reasons: string[] = [`${profile.label}可达率 ${percent(profile.okRate)}，达到地区归因门槛 ${percent(regionalAttributionMinOkRate)}`]
     if (typeof profile.speedRatio === 'number' && profile.speedRatio <= 0.9) {
-      components.latency = profile.speedRatio <= 0.65 ? 18 : 10
+      components.latency = profile.speedRatio <= 0.65 ? 14 : 8
       addReason(reasons, `${profile.label}耗时约为全球基线 ${profile.speedRatio}x`)
     }
-    if (profile.okRate === 1) components.fullCoverage = 12
+    if (profile.okRate >= regionalStrongOkRate) components.fullCoverage = 10
 
-    const score = Math.round(clamp(Object.values(components).reduce((sum, value) => sum + value, 0), 0, 90))
+    const score = Math.round(clamp(Object.values(components).reduce((sum, value) => sum + value, 0), 0, 92))
     if (score < 50) continue
     attributions.push({
       country,
       label: countryLabels[country] ?? country,
       score,
-      confidence: round(clamp(0.28 + score / 220 + Math.min(0.1, profile.total * 0.012), 0.28, 0.68)),
+      confidence: round(clamp(0.24 + score / 230 + Math.min(0.1, profile.total * 0.012), 0.28, 0.66)),
       reasons,
       components,
     })
@@ -937,13 +1360,12 @@ async function fetchJsonEndpoint(endpoint: (typeof ipApiEndpoints)[number]): Pro
   }
 }
 
-async function probeReachability(target: ReachabilityTarget): Promise<EndpointResult> {
+function imageLoad(url: string, timeoutMs: number): Promise<{ ok: boolean; ms: number; error?: string }> {
   const start = performance.now()
-  return new Promise<EndpointResult>((resolve) => {
+  return new Promise((resolve) => {
     const img = new Image()
     let settled = false
-    const timer = window.setTimeout(() => finish(false, 'TimeoutError: image load timed out'), 6500)
-
+    const timer = window.setTimeout(() => finish(false, 'TimeoutError: image load timed out'), timeoutMs)
     const finish = (ok: boolean, error?: string) => {
       if (settled) return
       settled = true
@@ -951,33 +1373,74 @@ async function probeReachability(target: ReachabilityTarget): Promise<EndpointRe
       img.onload = null
       img.onerror = null
       img.src = ''
-      resolve({
-        ...target,
-        url: target.url,
-        ok,
-        ms: Math.round(performance.now() - start),
-        type: 'reachability',
-        data: {
-          method: 'image',
-          note: ok
-            ? 'image onload: HTTP 2xx/3xx 且浏览器可解码为图片'
-            : 'image onerror/timeout: 包括 404、403、HTML 错误页、DNS/TLS 阻断或超时',
-        },
-        error,
-      })
+      resolve({ ok, ms: Math.round(performance.now() - start), error })
     }
-
     img.decoding = 'async'
     img.referrerPolicy = 'no-referrer'
     img.onload = () => finish(true)
     img.onerror = () => finish(false, 'ImageError: resource failed to load or decode')
-    const separator = target.url.includes('?') ? '&' : '?'
-    img.src = `${target.url}${separator}__probe=${Date.now()}-${Math.random().toString(36).slice(2)}`
+    const separator = url.includes('?') ? '&' : '?'
+    img.src = `${url}${separator}__probe=${Date.now()}-${Math.random().toString(36).slice(2)}`
   })
+}
+
+async function probeReachability(target: ReachabilityTarget): Promise<EndpointResult> {
+  const start = performance.now()
+  const urls = target.urls && target.urls.length > 0 ? target.urls : [target.url]
+  const attempts: Array<{ url: string; ok: boolean; ms: number; error?: string }> = []
+  for (const url of urls) {
+    const attempt = await imageLoad(url, 4500)
+    attempts.push({ url, ...attempt })
+    if (attempt.ok) {
+      return {
+        ...target,
+        url,
+        urls,
+        ok: true,
+        ms: Math.round(performance.now() - start),
+        type: 'reachability',
+        data: {
+          method: 'image',
+          matchedUrl: url,
+          attempts,
+          note: 'image onload: HTTP 2xx/3xx 且浏览器可解码为图片',
+        },
+      }
+    }
+  }
+
+  return {
+    ...target,
+    url: target.url,
+    urls,
+    ok: false,
+    ms: Math.round(performance.now() - start),
+    type: 'reachability',
+    data: {
+      method: 'image',
+      attempts,
+      note: 'image onerror/timeout: 包括 404、403、HTML 错误页、DNS/TLS 阻断或超时',
+    },
+    error: attempts.map((item) => `${item.url}: ${item.error ?? 'failed'}`).join('; '),
+  }
 }
 
 function pushCategoryCount(target: Record<string, number>, category: string) {
   target[category] = (target[category] ?? 0) + 1
+}
+
+async function mapLimit<T, R>(items: T[], limit: number, worker: (item: T) => Promise<R>): Promise<R[]> {
+  const results: R[] = new Array(items.length)
+  let index = 0
+  const runners = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (index < items.length) {
+      const current = index
+      index += 1
+      results[current] = await worker(items[current])
+    }
+  })
+  await Promise.all(runners)
+  return results
 }
 
 export const networkProbe: ProbeDefinition<NetworkProbeData> = {
@@ -992,7 +1455,7 @@ export const networkProbe: ProbeDefinition<NetworkProbeData> = {
 
       const [ipApis, reachability] = await Promise.all([
         Promise.all(ipApiEndpoints.map(fetchJsonEndpoint)),
-        Promise.all(reachabilityTargets.map((target) => probeReachability(target))),
+        mapLimit(reachabilityTargets, 10, (target) => probeReachability(target)),
       ])
 
       const observedIps: Array<{ source: string; ip?: string; country?: string; asn?: string; org?: string }> = []

@@ -166,6 +166,44 @@ const sourceLabels: Record<AttributionSource, string> = {
   history: '地域缓存/DNS',
 }
 
+type EvidenceFamily = 'network' | 'localization' | 'system'
+
+const sourceFamilies: Record<AttributionSource, EvidenceFamily> = {
+  ip: 'network',
+  webrtc: 'network',
+  reachability: 'network',
+  locale: 'localization',
+  timezone: 'localization',
+  calendar: 'localization',
+  emoji: 'system',
+  fonts: 'system',
+  keyboard: 'system',
+  speech: 'system',
+  tls: 'system',
+  history: 'system',
+}
+
+const sourceCaps: Record<AttributionSource, number> = {
+  ip: 0.46,
+  webrtc: 0.38,
+  reachability: 0.32,
+  timezone: 0.3,
+  locale: 0.28,
+  calendar: 0.16,
+  tls: 0.24,
+  fonts: 0.16,
+  speech: 0.14,
+  keyboard: 0.14,
+  emoji: 0.1,
+  history: 0.08,
+}
+
+const familyCaps: Record<EvidenceFamily, number> = {
+  network: 0.58,
+  localization: 0.46,
+  system: 0.32,
+}
+
 function getData<T>(results: ProbeResult[], id: string): T | undefined {
   return results.find((item) => item.id === id)?.data as T | undefined
 }
@@ -218,6 +256,16 @@ function regionFromLanguageTag(tag: string): string | undefined {
 
 function addEvidence(evidence: CountryEvidence[], item: Omit<CountryEvidence, 'label'>) {
   evidence.push({ ...item, label: countryDisplayName(item.country) })
+}
+
+function combineCapped(values: number[], cap: number): number {
+  if (cap <= 0 || values.length === 0) return 0
+  let residual = 1
+  for (const value of values) {
+    const normalized = Math.max(0, Math.min(0.95, value / cap))
+    residual *= 1 - normalized
+  }
+  return cap * (1 - residual)
 }
 
 function collectLocaleEvidence(results: ProbeResult[], evidence: CountryEvidence[]) {
@@ -556,23 +604,53 @@ function topEvidenceBySource(evidence: CountryEvidence[], source: AttributionSou
 }
 
 function scoreCountries(evidence: CountryEvidence[]): CountryAttribution[] {
-  const grouped = new Map<string, CountryAttribution>()
+  const grouped = new Map<string, CountryEvidence[]>()
   for (const item of evidence) {
-    const score = item.weight * item.confidence
-    const current = grouped.get(item.country) ?? {
-      country: item.country,
-      label: item.label,
-      confidence: 0,
-      score: 0,
-      evidence: [],
-    }
-    current.score += score
-    current.evidence.push(item)
+    const current = grouped.get(item.country) ?? []
+    current.push(item)
     grouped.set(item.country, current)
   }
 
-  return [...grouped.values()]
-    .map((item) => ({ ...item, confidence: Math.min(99, Math.round(item.score * 100)) }))
+  return [...grouped.entries()]
+    .map(([country, items]) => {
+      const sourceContrib = new Map<AttributionSource, number>()
+      for (const source of Object.keys(sourceCaps) as AttributionSource[]) {
+        const values = items.filter((item) => item.source === source).map((item) => item.weight * item.confidence)
+        if (values.length > 0) sourceContrib.set(source, combineCapped(values, sourceCaps[source]))
+      }
+
+      const familyContrib = new Map<EvidenceFamily, number>()
+      for (const family of Object.keys(familyCaps) as EvidenceFamily[]) {
+        const values = [...sourceContrib.entries()]
+          .filter(([source]) => sourceFamilies[source] === family)
+          .map(([, value]) => value)
+        familyContrib.set(family, combineCapped(values, familyCaps[family]))
+      }
+
+      const activeFamilies = [...familyContrib.entries()].filter(([, value]) => value >= 0.08)
+      const sourceDiversity = [...sourceContrib.values()].filter((value) => value >= 0.045).length
+      const hasNetwork = (familyContrib.get('network') ?? 0) >= 0.12
+      const hasLocalization = (familyContrib.get('localization') ?? 0) >= 0.12
+      const hasSystem = (familyContrib.get('system') ?? 0) >= 0.08
+      const coherenceBonus =
+        (hasNetwork && hasLocalization ? 0.08 : 0) +
+        (hasNetwork && hasSystem ? 0.04 : 0) +
+        (hasLocalization && hasSystem ? 0.035 : 0) +
+        Math.min(0.045, Math.max(0, sourceDiversity - 2) * 0.015)
+
+      const score = Math.min(
+        0.99,
+        [...familyContrib.values()].reduce((sum, value) => sum + value, 0) + coherenceBonus,
+      )
+
+      return {
+        country,
+        label: countryDisplayName(country),
+        confidence: Math.min(99, Math.round(score * 100)),
+        score,
+        evidence: [...items].sort((a, b) => b.weight * b.confidence - a.weight * a.confidence),
+      }
+    })
     .sort((a, b) => b.score - a.score)
 }
 
@@ -623,9 +701,10 @@ function assessSpoofing(evidence: CountryEvidence[], topCountries: CountryAttrib
   const topScore = topCountries[0]?.score ?? 0
   const runnerUpScore = topCountries[1]?.score ?? 0
   const ambiguityRatio = totalScore > 0 ? runnerUpScore / Math.max(topScore, 0.001) : 0
-  const ambiguityScore = ambiguityRatio >= 0.72 ? Math.min(18, ambiguityRatio * 14) : 0
-  const conflictScore = Math.min(72, conflictStrength * 185)
-  const score = Math.min(100, Math.round(conflictScore + ambiguityScore + matrixProxyScore * 0.52))
+  const ambiguityScore = ambiguityRatio >= 0.78 && runnerUpScore >= 0.2 ? Math.min(16, ambiguityRatio * 13) : 0
+  const conflictScore = Math.min(68, conflictStrength * 170)
+  const lowConfidencePenalty = topScore < 0.28 ? -10 : topScore < 0.4 ? -4 : 0
+  const score = Math.max(0, Math.min(100, Math.round(conflictScore + ambiguityScore + matrixProxyScore * 0.5 + lowConfidencePenalty)))
   const level = confidenceToLevel(score)
 
   let summary = '各主要归因信号基本一致，伪装/不一致概率较低。'

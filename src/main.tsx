@@ -372,7 +372,7 @@ function ExportButton({ results, identity }: { results: ProbeResult[]; identity:
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `nationality-attribution-probe-${Date.now()}.json`
+    a.download = `unbox-${Date.now()}.json`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -409,22 +409,15 @@ function App() {
 
   return (
     <main>
-      <header className="topbar-wrapper">
-        <nav className="topbar">
+      <section className="hero">
+        <div className="hero-nav">
           <div className="brand">
             <span className="brand-mark">🧭</span>
-            <span>Nationality Attribution Probe</span>
+            <span>unbox</span>
           </div>
-          <div className="nav-actions">
-            <ExportButton results={results} identity={identity} />
-            <button className="primary" onClick={run} disabled={runState === 'running'}>
-              {runState === 'running' ? '探测中…' : results.length ? '重新探测' : '开始探测'}
-            </button>
-          </div>
-        </nav>
-      </header>
+          <ExportButton results={results} identity={identity} />
+        </div>
 
-      <section className="hero">
         <div className="hero-content">
           <span className="eyebrow">Attribution · Consistency · HTTPS Static</span>
           <h1>别人会把你的环境归因到哪里？</h1>
@@ -434,7 +427,7 @@ function App() {
           </p>
           <div className="hero-actions">
             <button className="primary large" onClick={run} disabled={runState === 'running'}>
-              {runState === 'running' ? '探测中…' : '开始探测'}
+              {runState === 'running' ? '探测中…' : results.length ? '重新探测' : '开始探测'}
             </button>
             <label className="toggle">
               <input
@@ -447,28 +440,32 @@ function App() {
             </label>
           </div>
         </div>
+      </section>
 
-        {results.length > 0 && (
-          <div className="hero-stats identity-stats">
-            <div className="stat-card glass">
+      {results.length > 0 && (
+        <section className="section overview-section">
+          <div className="overview-grid">
+            <div className="stat-card glass primary-stat">
               <ScoreRing score={topAttribution?.confidence ?? 0} level={confidenceToLevel(topAttribution?.confidence ?? 0)} />
               <div className="stat-info">
+                <span className="eyebrow">Top Attribution</span>
                 <h3>最高归因：{topAttribution?.label ?? '证据不足'}</h3>
                 <p>
                   {identity.evidence.length} 条归因证据 · {results.length}/{probeDefinitions.length} 个模块 · {totalSignals} 个归因/一致性信号
                 </p>
               </div>
             </div>
-            <div className="stat-card glass">
+            <div className="stat-card glass primary-stat">
               <ScoreRing score={identity.spoofing.score} level={identity.spoofing.level} />
               <div className="stat-info">
+                <span className="eyebrow">Consistency</span>
                 <h3>伪装/不一致概率</h3>
                 <p>{identity.spoofing.summary}</p>
               </div>
             </div>
           </div>
-        )}
-      </section>
+        </section>
+      )}
 
       {results.length > 0 && (
         <section className="section">
